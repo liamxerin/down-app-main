@@ -65,7 +65,9 @@ router.get("/youtube/video", async (req, res) => {
 router.post("/youtube/video/download", async (req, res) => {
   const video = 0;
   const videoLink = req.body.link;
-      const videoQuality = req.body.quality;
+
+  try {
+    const videoQuality = req.body.quality;
     const options = ["-f", "bestvideo[height<=" + videoQuality + "]+bestaudio"];
     const videoName = "downloaded_video.mp4"; // Specify the name for the downloaded video file
     const videoStream = await exec([videoLink, ...options], {
@@ -74,9 +76,6 @@ router.post("/youtube/video/download", async (req, res) => {
 const filePath = path.join(__dirname, videoName);
     const stats = await fs.promises.stat(filePath);
     const fileSizeInBytes = stats.size;
-
-  try {
-
     console.log(`File Size: ${fileSizeInBytes} bytes`);
     console.log("Video downloaded successfully:", videoName);
     console.log("Video downloaded successfully:", options);
