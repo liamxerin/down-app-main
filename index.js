@@ -76,9 +76,7 @@ router.post("/youtube/video/download", async (req, res) => {
 const filePath = path.join(__dirname, videoName);
     const stats = await fs.promises.stat(filePath);
     const fileSizeInBytes = stats.size;
-    console.log(`File Size: ${fileSizeInBytes} bytes`);
-    console.log("Video downloaded successfully:", videoName);
-    console.log("Video downloaded successfully:", options);
+  
     res.download(filePath, videoName, async (err) => {
       if (err) {
         console.error("Error sending file for download:", err);
@@ -86,6 +84,9 @@ const filePath = path.join(__dirname, videoName);
       } else {
         // Delete the file after sending it for download
         fs.unlinkSync(filePath);
+          console.log(`File Size: ${fileSizeInBytes} bytes`);
+    console.log("Video downloaded successfully:", videoName);
+    console.log("Video downloaded successfully:", options);
       }
     });
     // Sending the downloaded video file as a response (you might want to send a different response or redirect the user)
